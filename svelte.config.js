@@ -1,4 +1,5 @@
 import adapter from '@sveltejs/adapter-auto';
+import dsv from '@rollup/plugin-dsv';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -12,7 +13,10 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		vite: {
+			plugins: [dsv()]
+		}
 	}
 };
 

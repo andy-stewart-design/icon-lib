@@ -17,7 +17,7 @@
 		}
 	];
 
-	iconIndex();
+	console.log(iconIndex);
 </script>
 
 <div class="flex gap-4">
