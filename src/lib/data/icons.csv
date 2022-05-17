@@ -1,0 +1,4 @@
+﻿name,src,path,category,tags
+Arrow Right,arrow-right.svg,m21.707 11.293-8-7.99997-1.414 1.414L18.586 11H2v2h16.586l-6.293 6.293 1.414 1.414 8-8c.391-.391.391-1.023 0-1.414Z,Navigation,Arrow
+Arrow Left,arrow-left.svg,M22 11H5.41401L11.707 4.70703l-1.414-1.414L2.29301 11.293c-.391.391-.391 1.023 0 1.414l7.99999 8 1.414-1.414L5.41401 13H22v-2Z,Navigation,Arrow
+Arrow Out,arrow-out.svg,M18 5H7.00003v2H15.586L4.29303 18.293l1.414 1.414L17 8.414V17h2V6c0-.553-.448-1-1-1Z,Navigation,Arrow
