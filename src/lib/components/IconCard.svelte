@@ -28,17 +28,17 @@
 	};
 </script>
 
-<div class="flex flex-col gap-y-2 w-32 p-1 border border-black border-opacity-10 rounded">
+<div class="flex flex-col gap-y-2 w-32 p-2 border border-black border-opacity-10 rounded-md">
 	<button class="group relative p-8" use:clipboard={path} on:useclipboard={onCopy}>
 		<img
-			class="transition-opacity group-hover:opacity-10"
+			class="transition-opacity group-hover:opacity-50"
 			src={`/img/icons/${src}`}
 			alt="cube icon"
 		/>
 		<div
-			class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-blue-500 bg-opacity-0 transition-colors group-hover:bg-opacity-10"
+			class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-0 rounded-sm transition-colors group-hover:bg-opacity-75"
 		>
-			<p class="text-blue-600 text-sm opacity-0 transition-opacity group-hover:opacity-100">
+			<p class="text-white text-sm opacity-0 transition-opacity group-hover:opacity-100">
 				{isActive ? 'SVG copied' : 'copy SVG'}
 			</p>
 		</div>

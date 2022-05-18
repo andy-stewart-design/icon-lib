@@ -12,5 +12,5 @@ export const iconIndex = lexicons.map(
 );
 
 // export const iconIndex = () => {
-// 	console.log(data);
+// 	console.log(lexicons);
 // };

@@ -17,11 +17,12 @@
 		}
 	];
 
-	console.log(iconIndex);
+	// console.log(iconIndex);
+	// iconIndex();
 </script>
 
-<div class="flex gap-4">
-	{#each icons as icon}
+<div class="flex gap-4 p-16">
+	{#each iconIndex as icon}
 		<IconCard {icon} />
 	{/each}
 </div>
