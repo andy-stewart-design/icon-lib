@@ -2,6 +2,7 @@
 	import { iconIndex, categories } from '$lib/data/icons';
 	import Toast from '$lib/components/Toast.svelte';
 	import IconCard from '$lib/components/IconCard.svelte';
+	import { onMount } from 'svelte';
 
 	let isOpen: boolean = false;
 	let activeItem: number = 0;
@@ -75,7 +76,7 @@
 	</div>
 
 	<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-		{#each _icons as icon (icon.name)}
+		{#each _icons as icon (icon.src)}
 			<IconCard {icon} />
 		{/each}
 	</div>
