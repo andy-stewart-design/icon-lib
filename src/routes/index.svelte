@@ -2,7 +2,7 @@
 	import { iconIndex, categories } from '$lib/data/icons';
 	import Toast from '$lib/components/Toast.svelte';
 	import IconCard from '$lib/components/IconCard.svelte';
-	import Icon from '$lib/svg/seperate-vertical.svg';
+	import icon from '$lib/svg/seperate-vertical.svg';
 
 	let isOpen: boolean = false;
 	let activeItem: number = 0;
@@ -50,9 +50,14 @@
 
 <main class="p-4 md:p-8 lg:p-16">
 	<div class="relative inline-block mb-4">
-		<button on:click={toggleOpenState} class="text-left border p-4 min-w-[240px]">
+		<button
+			on:click={toggleOpenState}
+			class="flex justify-between items-center text-left border p-4 min-w-[240px]"
+		>
 			{selectedItem}
-			<Icon />
+			<div class="w-6">
+				{@html icon}
+			</div>
 		</button>
 		{#if isOpen}
 			<ul
