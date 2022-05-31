@@ -1,30 +1,84 @@
 <script lang="ts">
-	import type { Icons } from '$lib/types/icons';
-	import { iconIndex } from '$lib/data/icons';
+	import { iconIndex, categories } from '$lib/data/icons';
 	import Toast from '$lib/components/Toast.svelte';
 	import IconCard from '$lib/components/IconCard.svelte';
 
-	const icons: Icons[] = [
-		{
-			name: 'Cube',
-			src: 'cube.svg',
-			path: `m21.485 6.126-9-5c-.303-.168-.669-.168-.972 0l-9 5C2.197 6.302 2 6.637 2 7v10c0 .363.197.698.514.874l9 5c.152.084.319.126.486.126s.334-.042.486-.126l9-5c.317-.176.514-.511.514-.874V7c0-.363-.197-.698-.515-.874zM12 3.144 18.94 7 12 10.856 5.059 7 12 3.144zM4 8.699l7 3.889V20.3l-7-3.89V8.699zm9 11.602v-7.712L20 8.7v7.712l-7 3.889z`
-		},
-		{
-			name: 'Download',
-			src: 'download.svg',
-			path: `m11.293 17.707-7-7 1.414-1.414L11 14.586V1h2v13.586l5.293-5.293 1.414 1.414-7 7c-.195.195-.451.293-.707.293s-.512-.098-.707-.293zM19 18v3H5v-3H3v4c0 .553.448 1 1 1h16c.553 0 1-.447 1-1v-4h-2z`
-		}
-	];
+	let isOpen: boolean = false;
+	let activeItem: number = 0;
+	let selectedItem: string = categories[activeItem];
+	const len: number = categories.length - 1;
 
-	// console.log(iconIndex);
-	// iconIndex();
+	const toggleOpenState = () => (isOpen = !isOpen);
+	const incActiveItem = () => (activeItem >= len ? (activeItem = 0) : (activeItem += 1));
+	const decActiveItem = () => (activeItem <= 0 ? (activeItem = len) : (activeItem -= 1));
+	const updateSelected = () => {
+		selectedItem = categories[activeItem];
+		toggleOpenState();
+	};
+	const focusOnMount = (node: HTMLElement) => {
+		node.focus();
+		window.addEventListener('keydown', keyboardHandler);
+		return {
+			destroy: () => {
+				window.removeEventListener('keydown', keyboardHandler);
+			}
+		};
+	};
+	const keyboardHandler = (e: KeyboardEvent) => {
+		if (isOpen && e.key === 'Tab') {
+			e.preventDefault();
+			e.shiftKey ? decActiveItem() : incActiveItem();
+		} else if (isOpen && e.key === 'ArrowUp') {
+			e.preventDefault();
+			decActiveItem();
+		} else if (isOpen && e.key === 'ArrowDown') {
+			e.preventDefault();
+			incActiveItem();
+		} else if (isOpen && e.key === 'Escape') {
+			toggleOpenState();
+		} else if (isOpen && e.key === 'Enter') {
+			updateSelected();
+		}
+	};
+
+	$: _icons = iconIndex.filter((icon: { category: string }) => {
+		if (selectedItem === categories[0]) return true;
+		return selectedItem === icon.category;
+	});
 </script>
 
-<div class="flex gap-4 p-16">
-	{#each iconIndex as icon}
-		<IconCard {icon} />
-	{/each}
-</div>
+<main class="p-4 md:p-8 lg:p-16">
+	<div class="relative inline-block mb-4">
+		<button on:click={toggleOpenState} class="text-left border p-4 min-w-[240px]"
+			>{selectedItem}</button
+		>
+		{#if isOpen}
+			<ul
+				class="absolute top-16 left-0 bg-white border p-4 w-full z-10"
+				aria-orientation="vertical"
+				tabindex="0"
+				use:focusOnMount
+			>
+				{#each categories as category, index}
+					<li
+						class:text-blue-600={index === activeItem}
+						on:click={updateSelected}
+						on:mouseenter={() => {
+							activeItem = index;
+						}}
+					>
+						{category}
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</div>
+
+	<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+		{#each _icons as icon (icon.name)}
+			<IconCard {icon} />
+		{/each}
+	</div>
+</main>
 
 <Toast />
