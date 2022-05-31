@@ -4,6 +4,7 @@
 	import { toggleToast, activeSVG, timeoutDuration } from '$lib/stores/toast';
 
 	export let icon: Icons;
+	export let index: number;
 	const { name, path, src, category } = icon;
 
 	let isActive: boolean = false;
@@ -34,29 +35,22 @@
 	on:useclipboard={onCopy}
 >
 	<div
-		class="flex flex-col gap-y-2 border text-gray-800 border-gray-800 border-opacity-10 rounded-md"
+		class="relative flex flex-col gap-y-2 border text-gray-800 border-gray-800 border-opacity-10 rounded-md"
 	>
-		<div class="flex justify-center items-center p-6 pt-8 group-hover:text-blue-600">
+		<p class="absolute top-[6px] left-2 text-xs">{index}</p>
+		<p class="absolute top-[6px] right-2 text-xs text-right">{category}</p>
+		<div class="flex justify-center items-center p-6 pt-12 group-hover:text-blue-600">
 			<div class="w-full max-w-[40px]">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve">
 					<path fill="currentColor" d={path} />
 				</svg>
 			</div>
 		</div>
-		<!-- <div
-			class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-0 rounded-sm transition-colors group-hover:bg-opacity-75"
-		>
-			<p class="text-white text-sm opacity-0 transition-opacity group-hover:opacity-100">
-				{isActive ? 'SVG copied' : 'copy SVG'}
-			</p>
-		</div> -->
-		<div
-			class="flex flex-col items-center w-full p-2 pb-4 border-t border-gray-800 border-opacity-10"
-		>
+		<div class="flex flex-col items-center w-full pt-2 px-2">
 			<p class="text-sm text-center w-full mb-2">{name}</p>
-			<p class="text-xs text-center bg-blue-600 bg-opacity-10 pt-px pb-0.5 px-2 rounded-full">
+			<!-- <p class="text-xs text-center bg-blue-600 bg-opacity-10 pt-px pb-0.5 px-2 rounded-full">
 				{category}
-			</p>
+			</p> -->
 		</div>
 	</div>
 </button>

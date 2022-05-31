@@ -76,8 +76,8 @@
 	</div>
 
 	<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-		{#each _icons as icon (icon.src)}
-			<IconCard {icon} />
+		{#each _icons as icon, index (icon.src)}
+			<IconCard {icon} {index} />
 		{/each}
 	</div>
 </main>
