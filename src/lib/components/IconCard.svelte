@@ -4,28 +4,14 @@
 	import { toggleToast, activeSVG, timeoutDuration } from '$lib/stores/toast';
 
 	export let icon: Icons;
-	export let index: number;
 	const { name, path, src, category } = icon;
 
-	let isActive: boolean = false;
-	let timer: ReturnType<typeof setTimeout>;
-
-	const runTimer = () => {
-		timer = setTimeout(() => {
-			isActive = false;
-		}, timeoutDuration);
-	};
-
-	const toggleType = () => {
-		isActive = true;
-		clearTimeout(timer);
-		runTimer();
-	};
+	export let index: number;
+	const _index = index <= 9 ? `0${index}` : index;
 
 	const onCopy = () => {
 		$activeSVG = name;
 		toggleToast();
-		toggleType();
 	};
 </script>
 
@@ -35,11 +21,13 @@
 	on:useclipboard={onCopy}
 >
 	<div
-		class="relative flex flex-col gap-y-2 border text-gray-800 border-gray-800 border-opacity-10 rounded-md"
+		class="relative flex flex-col gap-y-2 border text-gray-800 border-gray-800 border-opacity-10 rounded-sm hover:text-blue-600"
 	>
-		<p class="absolute top-[6px] left-2 text-xs">{index}</p>
-		<p class="absolute top-[6px] right-2 text-xs text-right">{category}</p>
-		<div class="flex justify-center items-center p-6 pt-12 group-hover:text-blue-600">
+		<div class="grid grid-cols-2 py-1 px-2">
+			<p class="text-[11px] text-left">{_index}</p>
+			<p class="text-[11px] text-right">{category}</p>
+		</div>
+		<div class="flex justify-center items-center p-6">
 			<div class="w-full max-w-[40px]">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve">
 					<path fill="currentColor" d={path} />
