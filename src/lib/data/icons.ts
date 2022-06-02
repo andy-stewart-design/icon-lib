@@ -12,7 +12,7 @@ const iconIndex: Icons[] = lexicons.map((d: Icons) => ({
 
 let categoriesUnique = new Set<string>();
 for (const icon of iconIndex) {
-	categoriesUnique.add(icon.category);
+	if (icon.category !== '') categoriesUnique.add(icon.category);
 }
 const categories: string[] = Array.from(categoriesUnique);
 categories.unshift('All Categories');

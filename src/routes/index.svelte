@@ -1,19 +1,20 @@
 <script lang="ts">
 	import { iconIndex, categories } from '$lib/data/icons';
+	import { activeItem } from '$lib/stores/filter';
 	import Toast from '$lib/components/Toast.svelte';
 	import IconCard from '$lib/components/IconCard.svelte';
 	import icon from '$lib/svg/seperate-vertical-16p.svg';
 
-	let isOpen: boolean = false;
-	let activeItem: number = 0;
-	let selectedItem: string = categories[activeItem];
+	// let activeItem: number = 0;
+	let selectedItem: string = categories[$activeItem];
 	const len: number = categories.length - 1;
+	let isOpen: boolean = false;
 
 	const toggleOpenState = () => (isOpen = !isOpen);
-	const incActiveItem = () => (activeItem >= len ? (activeItem = 0) : (activeItem += 1));
-	const decActiveItem = () => (activeItem <= 0 ? (activeItem = len) : (activeItem -= 1));
+	const incActiveItem = () => ($activeItem >= len ? ($activeItem = 0) : ($activeItem += 1));
+	const decActiveItem = () => ($activeItem <= 0 ? ($activeItem = len) : ($activeItem -= 1));
 	const updateSelected = () => {
-		selectedItem = categories[activeItem];
+		selectedItem = categories[$activeItem];
 		toggleOpenState();
 	};
 	const focusOnMount = (node: HTMLElement) => {
@@ -53,7 +54,7 @@
 		<div class="relative col-span-2">
 			<button
 				on:click={toggleOpenState}
-				class="flex justify-between items-center text-left border rounded-sm p-4 w-full min-w-[240px]"
+				class="flex justify-between items-center text-left border rounded-sm py-3 px-4 w-full min-w-[240px]"
 			>
 				{selectedItem}
 				<div class="w-4">
@@ -70,10 +71,10 @@
 					{#each categories as category, index}
 						<li
 							class="py-2 px-4"
-							class:item-active={index === activeItem}
+							class:item-active={index === $activeItem}
 							on:click={updateSelected}
 							on:mouseenter={() => {
-								activeItem = index;
+								$activeItem = index;
 							}}
 						>
 							{category}
@@ -82,6 +83,9 @@
 				</ul>
 			{/if}
 		</div>
+		<div class="py-3">
+			<p>{_icons.length} of {iconIndex.length} icons</p>
+		</div>
 	</div>
 
 	<div class="icon-grid">
@@ -89,6 +93,8 @@
 			<IconCard {icon} {index} />
 		{/each}
 	</div>
+
+	<div class="w-full text-xs text-opacity-60 text-center pt-16">Made by Andy Stewart</div>
 </main>
 
 <Toast />

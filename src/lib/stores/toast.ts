@@ -1,10 +1,10 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 export const timeoutDuration: number = 2000;
 let timer: ReturnType<typeof setTimeout>;
 
-export const toastIsActive = writable(false);
-export const activeSVG = writable('');
+export const toastIsActive: Writable<boolean> = writable(false);
+export const activeSVG: Writable<string> = writable('');
 
 const runTimer = () => {
 	timer = setTimeout(() => {
