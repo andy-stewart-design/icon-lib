@@ -21,7 +21,7 @@
 	on:useclipboard={onCopy}
 >
 	<div
-		class="relative flex flex-col gap-y-2 border text-gray-800 border-gray-800 border-opacity-10 rounded-sm group-hover:text-blue-600"
+		class="relative flex flex-col gap-y-2 border text-gray-800 border-gray-800 border-opacity-10 rounded-sm group-hover:text-blue-600 group-hover:border-blue-600"
 	>
 		<div class="grid grid-cols-2 py-1 px-2">
 			<p class="text-[11px] text-left">{_index}</p>

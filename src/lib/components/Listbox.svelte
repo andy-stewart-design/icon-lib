@@ -1,0 +1,91 @@
+<script lang="ts">
+	import { categories } from '$lib/data/icons';
+	import { focusOnMount } from '$lib/actions/focusOnMount';
+	import separate from '$lib/svg/seperate-vertical-16p.svg';
+	import selected from '$lib/svg/selected.svg';
+
+	let activeItem: number = 0;
+	export let selectedItem: string = categories[activeItem];
+	const len: number = categories.length - 1;
+	let isOpen: boolean = false;
+	let listboxButton: HTMLElement;
+
+	const toggleOpenState = (): void => {
+		isOpen = !isOpen;
+		let value = isOpen ? 'true' : 'false';
+		listboxButton.setAttribute('aria-expanded', value);
+	};
+	const incActiveItem = (): number => (activeItem >= len ? (activeItem = 0) : (activeItem += 1));
+	const decActiveItem = (): number => (activeItem <= 0 ? (activeItem = len) : (activeItem -= 1));
+	const updateSelected = (): void => {
+		toggleOpenState();
+		selectedItem = categories[activeItem];
+	};
+
+	const keyboardHandler = (e: KeyboardEvent) => {
+		if (isOpen && e.key === 'Tab') {
+			e.preventDefault();
+			e.shiftKey ? decActiveItem() : incActiveItem();
+		} else if (isOpen && e.key === 'ArrowUp') {
+			e.preventDefault();
+			decActiveItem();
+		} else if (isOpen && e.key === 'ArrowDown') {
+			e.preventDefault();
+			incActiveItem();
+		} else if (isOpen && e.key === 'Escape') {
+			toggleOpenState();
+			activeItem = categories.indexOf(selectedItem);
+		} else if (isOpen && e.key === 'Enter') {
+			updateSelected();
+		}
+	};
+</script>
+
+<button
+	bind:this={listboxButton}
+	on:click={toggleOpenState}
+	class="flex justify-between items-center text-left border rounded-sm py-3 px-4 w-full min-w-[240px]"
+	type="button"
+	aria-haspopup="true"
+	aria-expanded="false"
+>
+	{selectedItem}
+	<div class="w-4">
+		{@html separate}
+	</div>
+</button>
+{#if isOpen}
+	<ul
+		class="absolute top-16 left-0 bg-white border rounded-sm w-full z-10 overflow-hidden"
+		role="listbox"
+		aria-orientation="vertical"
+		tabindex="0"
+		use:focusOnMount={keyboardHandler}
+	>
+		{#each categories as category, index}
+			{@const isSelected = categories.indexOf(selectedItem) === index}
+			<li
+				class="flex py-2 px-4"
+				class:item-active={index === activeItem}
+				aria-selected={isSelected ? 'true' : 'false'}
+				on:click={updateSelected}
+				on:mouseenter={() => {
+					activeItem = index;
+				}}
+			>
+				<p class="flex-grow">{category}</p>
+				{#if isSelected}
+					<div class="w-6">
+						{@html selected}
+					</div>
+				{/if}
+			</li>
+		{/each}
+	</ul>
+{/if}
+
+<style>
+	.item-active {
+		@apply text-blue-600 bg-blue-600 bg-opacity-10;
+	}
+</style>
