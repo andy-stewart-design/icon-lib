@@ -21,7 +21,7 @@
 			<p>{_icons.length} of {iconIndex.length} icons</p>
 		</div>
 	</div>
-	{selectedItem}
+
 	<div class="icon-grid">
 		{#each _icons as icon, index (icon.src)}
 			<IconCard {icon} {index} />
