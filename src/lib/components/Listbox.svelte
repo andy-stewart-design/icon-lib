@@ -10,19 +10,35 @@
 	let isOpen: boolean = false;
 	let listboxButton: HTMLElement;
 
+	const generateUUID = (): string => {
+		const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+		const lett: string = alphabet[Math.floor(Math.random() * alphabet.length)];
+		const num: number = Math.floor(Math.random() * 1000);
+		return lett + num;
+	};
+
 	const toggleOpenState = (): void => {
 		isOpen = !isOpen;
 		let value = isOpen ? 'true' : 'false';
 		listboxButton.setAttribute('aria-expanded', value);
+		if (isOpen) {
+			listboxButton.setAttribute('aria-controls', `listbox-options-:${generateUUID()}:`);
+		} else {
+			listboxButton.removeAttribute('aria-controls');
+			listboxButton.focus();
+		}
 	};
+
 	const incActiveItem = (): number => (activeItem >= len ? (activeItem = 0) : (activeItem += 1));
 	const decActiveItem = (): number => (activeItem <= 0 ? (activeItem = len) : (activeItem -= 1));
 	const updateSelected = (): void => {
-		toggleOpenState();
 		selectedItem = categories[activeItem];
+		setTimeout(() => {
+			toggleOpenState();
+		}, 0);
 	};
 
-	const keyboardHandler = (e: KeyboardEvent) => {
+	const keyboardHandler = async (e: KeyboardEvent) => {
 		if (isOpen && e.key === 'Tab') {
 			e.preventDefault();
 			e.shiftKey ? decActiveItem() : incActiveItem();
@@ -39,12 +55,17 @@
 			updateSelected();
 		}
 	};
+
+	const setAria = (node: HTMLElement): void => {
+		const att = node.previousElementSibling?.getAttribute('aria-controls');
+		if (att) node.setAttribute('id', att);
+	};
 </script>
 
 <button
 	bind:this={listboxButton}
 	on:click={toggleOpenState}
-	class="flex justify-between items-center text-left border rounded-sm py-3 px-4 w-full min-w-[240px]"
+	class="relative w-full min-w-[240px] flex justify-between items-center text-left bg-slate-200 rounded-sm py-4 px-4 focus:outline-none focus-visible:border-blue-600 focus-visible:ring focus-visible:ring-blue-600 focus-visible:ring-opacity-20"
 	type="button"
 	aria-haspopup="true"
 	aria-expanded="false"
@@ -56,11 +77,12 @@
 </button>
 {#if isOpen}
 	<ul
-		class="absolute top-16 left-0 bg-white border rounded-sm w-full z-10 overflow-hidden"
+		class="absolute top-16 left-0 bg-white rounded-sm shadow-lg w-full z-10 overflow-hidden focus:outline-none focus-visible:border-blue-600"
 		role="listbox"
 		aria-orientation="vertical"
 		tabindex="0"
 		use:focusOnMount={keyboardHandler}
+		use:setAria
 	>
 		{#each categories as category, index}
 			{@const isSelected = categories.indexOf(selectedItem) === index}
@@ -86,6 +108,6 @@
 
 <style>
 	.item-active {
-		@apply text-blue-600 bg-blue-600 bg-opacity-10;
+		@apply text-blue-600 bg-blue-600 bg-opacity-20;
 	}
 </style>
