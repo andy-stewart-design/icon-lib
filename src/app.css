@@ -2,3 +2,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: 'DM Sans';
+		font-weight: 400;
+		font-display: swap;
+		src: url('/fonts/dm-sans-v11-latin-regular.woff2') format('woff2'),
+			url('/fonts/dm-sans-v11-latin-regular.woff') format('woff');
+	}
+	@font-face {
+		font-family: 'DM Sans';
+		font-weight: 500;
+		font-display: swap;
+		src: url('/fonts/dm-sans-v11-latin-500.woff2') format('woff2'),
+			url('/fonts/dm-sans-v11-latin-500.woff') format('woff');
+	}
+	html {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	::-moz-selection {
+		/* Code for Firefox */
+		color: #e4e4e7;
+		background: #143ff5;
+	}
+
+	::selection {
+		color: #e4e4e7;
+		background: #143ff5;
+	}
+}
+
+* {
+	@apply antialiased;
+}
+
+html {
+	@apply bg-slate-100;
+}

@@ -40,12 +40,13 @@
 
 	const keyboardHandler = async (e: KeyboardEvent) => {
 		if (isOpen && e.key === 'Tab') {
-			e.preventDefault();
-			e.shiftKey ? decActiveItem() : incActiveItem();
-		} else if (isOpen && e.key === 'ArrowUp') {
+			toggleOpenState();
+			// e.preventDefault();
+			// e.shiftKey ? decActiveItem() : incActiveItem();
+		} else if ((isOpen && e.key === 'ArrowUp') || (isOpen && e.key === 'ArrowLeft')) {
 			e.preventDefault();
 			decActiveItem();
-		} else if (isOpen && e.key === 'ArrowDown') {
+		} else if ((isOpen && e.key === 'ArrowDown') || (isOpen && e.key === 'ArrowRight')) {
 			e.preventDefault();
 			incActiveItem();
 		} else if (isOpen && e.key === 'Escape') {
@@ -65,7 +66,8 @@
 <button
 	bind:this={listboxButton}
 	on:click={toggleOpenState}
-	class="relative w-full min-w-[240px] flex justify-between items-center text-left bg-slate-200 rounded-sm py-4 px-4 focus:outline-none focus-visible:border-blue-600 focus-visible:ring focus-visible:ring-blue-600 focus-visible:ring-opacity-20"
+	class="relative w-full min-w-[240px] flex justify-between items-center text-left bg-slate-200 py-4 px-5 focus:outline-none focus-visible:border-blue-600 focus-visible:ring focus-visible:ring-blue-600 focus-visible:ring-opacity-20 rounded-full transition-colors duration-300 focus-within:bg-blue-600/10"
+	class:btn-isActive={isOpen}
 	type="button"
 	aria-haspopup="true"
 	aria-expanded="false"
@@ -87,7 +89,7 @@
 		{#each categories as category, index}
 			{@const isSelected = categories.indexOf(selectedItem) === index}
 			<li
-				class="flex py-2 px-4"
+				class="flex py-2 px-5"
 				class:item-active={index === activeItem}
 				aria-selected={isSelected ? 'true' : 'false'}
 				on:click={updateSelected}
@@ -108,6 +110,9 @@
 
 <style>
 	.item-active {
-		@apply text-blue-600 bg-blue-600 bg-opacity-20;
+		@apply text-white bg-blue-600;
+	}
+	.btn-isActive {
+		@apply bg-blue-600/10;
 	}
 </style>
