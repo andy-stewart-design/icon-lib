@@ -4,7 +4,7 @@
 
 	interface ActiveTab {
 		index: number;
-		value: string;
+		value: string | null;
 	}
 
 	let tabs: HTMLElement[] = [];
@@ -33,6 +33,7 @@
 			} else {
 				$activeTab.index += 1;
 			}
+			$activeTab.value = tabs[$activeTab.index].textContent;
 			setFocus();
 		},
 		decActiveTab: (e: KeyboardEvent) => {
@@ -43,6 +44,7 @@
 			} else {
 				$activeTab.index -= 1;
 			}
+			$activeTab.value = tabs[$activeTab.index].textContent;
 			setFocus();
 		},
 		tabs,
