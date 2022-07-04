@@ -4,6 +4,8 @@
 	import Searchbar from '$lib/components/Searchbar.svelte';
 	import Toast from '$lib/components/Toast.svelte';
 	import IconCard from '$lib/components/IconCard.svelte';
+	import TabGroup from '$lib/components/tabs/TabGroup.svelte';
+	import Tab from '$lib/components/tabs/Tab.svelte';
 
 	let selectedItem: string;
 	let searchedText: string = '';
@@ -20,6 +22,11 @@
 </script>
 
 <main class="p-4 md:p-8 lg:p-16 text-slate-800 bg-slate-100">
+	<TabGroup>
+		<Tab>Tomato</Tab>
+		<Tab>Onion</Tab>
+		<Tab>Broccoli</Tab>
+	</TabGroup>
 	<div class="icon-grid inline-block mb-8">
 		<div class="relative col-span-full sm:col-span-2">
 			<Listbox bind:selectedItem />
