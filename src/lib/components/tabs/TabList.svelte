@@ -1,5 +1,5 @@
 <div
-	class="flex bg-slate-200 p-2 mb-4 rounded-full"
+	class="flex mb-4"
 	role="tablist"
 	aria-orientation="horizontal"
 	dir="ltr"

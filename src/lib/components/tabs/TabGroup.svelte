@@ -21,7 +21,6 @@
 		},
 		registerPanel: (node: HTMLDivElement) => {
 			panels.push(node);
-			console.log(panels.indexOf(node));
 			return panels.indexOf(node);
 		},
 		unregisterPanel: () => {},
@@ -57,6 +56,6 @@
 	});
 </script>
 
-<div class="mb-8">
+<div class="bg-slate-200 p-4 mb-8 rounded">
 	<slot />
 </div>

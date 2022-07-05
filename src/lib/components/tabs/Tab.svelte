@@ -41,7 +41,7 @@
 <button
 	bind:this={ref}
 	id={`tabs-${ariaID}-tab-${index + 1}`}
-	class="py-2 px-4 rounded-full"
+	class="py-2 px-4 rounded-sm"
 	class:active={isActive}
 	on:click={() => setActiveTab(index, value)}
 	on:focus={(e) => e.target?.addEventListener('keydown', handleKeydown)}
