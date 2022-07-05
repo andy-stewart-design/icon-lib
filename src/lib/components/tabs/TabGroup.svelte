@@ -1,26 +1,30 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
+	import type { ActiveTab, TabsArray } from '$lib/components/tabs/tabs';
 
-	interface ActiveTab {
-		index: number;
-		value: string | null;
-	}
-
-	let tabs: HTMLElement[] = [];
+	let tabs: TabsArray[] = [];
+	let panels: HTMLDivElement[] = [];
 	const activeTab = writable<ActiveTab>({ index: 0, value: '' });
-	const setFocus = () => tabs[$activeTab.index].focus();
+	const setFocus = () => tabs[$activeTab.index].node.focus();
+	const ariaID = Math.floor(Math.random() * 1000000);
 
 	setContext('api', {
-		register: (tab: HTMLElement, value: string) => {
-			tabs.push(tab);
-			const i = tabs.indexOf(tab);
+		registerTab: (node: HTMLElement, value: string) => {
+			tabs.push({ node, value });
+			const i = tabs.findIndex((obj) => obj.node === node);
 			if (i === $activeTab.index) $activeTab.value = value;
-			return tabs.indexOf(tab);
+			return i;
 		},
-		unregister: (index: number) => {
+		unregisterTab: (index: number) => {
 			tabs.splice(index, 1);
 		},
+		registerPanel: (node: HTMLDivElement) => {
+			panels.push(node);
+			console.log(panels.indexOf(node));
+			return panels.indexOf(node);
+		},
+		unregisterPanel: () => {},
 		setActiveTab: (index: number, value: string) => {
 			$activeTab.index = index;
 			$activeTab.value = value;
@@ -33,7 +37,7 @@
 			} else {
 				$activeTab.index += 1;
 			}
-			$activeTab.value = tabs[$activeTab.index].textContent;
+			$activeTab.value = tabs[$activeTab.index].value;
 			setFocus();
 		},
 		decActiveTab: (e: KeyboardEvent) => {
@@ -44,22 +48,15 @@
 			} else {
 				$activeTab.index -= 1;
 			}
-			$activeTab.value = tabs[$activeTab.index].textContent;
+			$activeTab.value = tabs[$activeTab.index].value;
 			setFocus();
 		},
 		tabs,
-		activeTab
+		activeTab,
+		ariaID
 	});
 </script>
 
-<div class="mb-4">{$activeTab.index}: {$activeTab.value}</div>
-<section
-	class="flex bg-slate-200 p-2 mb-4 rounded-full"
-	role="tablist"
-	aria-orientation="horizontal"
-	dir="ltr"
-	tabindex="-1"
-	data-orientation="horizontal"
->
+<div class="mb-8">
 	<slot />
-</section>
+</div>

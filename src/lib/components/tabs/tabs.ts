@@ -1,7 +1,9 @@
-export interface Tab {
-	ref: HTMLButtonElement | null;
-	value: string;
+export interface ActiveTab {
 	index: number;
-	isActive: boolean;
-	isDisabled: boolean;
+	value: string | null;
+}
+
+export interface TabsArray {
+	node: HTMLElement;
+	value: string;
 }

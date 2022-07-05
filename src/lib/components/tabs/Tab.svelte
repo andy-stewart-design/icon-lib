@@ -1,11 +1,18 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
 
-	const { register, unregister, setActiveTab, incActiveTab, decActiveTab, activeTab } =
-		getContext('api');
+	const {
+		registerTab,
+		unregisterTab,
+		activeTab,
+		setActiveTab,
+		incActiveTab,
+		decActiveTab,
+		ariaID
+	} = getContext('api');
 
 	let ref: HTMLSpanElement;
-	let index: number = -1;
+	export let index: number = -1;
 	let value: string = '';
 	$: isActive = $activeTab.index === index;
 
@@ -24,15 +31,16 @@
 
 	onMount(() => {
 		if (ref.textContent) value = ref.textContent;
-		index = register(ref, value);
+		index = registerTab(ref, value);
 		if (isActive) $activeTab.value = value;
 
-		return () => unregister(index);
+		return () => unregisterTab(index);
 	});
 </script>
 
 <button
 	bind:this={ref}
+	id={`tabs-${ariaID}-tab-${index + 1}`}
 	class="py-2 px-4 rounded-full"
 	class:active={isActive}
 	on:click={() => setActiveTab(index, value)}
@@ -42,35 +50,12 @@
 	tabindex={isActive ? 0 : -1}
 	data-state={isActive ? 'active' : 'inactive'}
 	data-orientation="horizontal"
+	aria-selected={isActive}
+	aria-controls={`tabs-${ariaID}-panel-${index + 1}`}
 >
 	<slot />
 </button>
 
-<!--
-	<button
-		type="button"
-		role="tab"
-		aria-selected="true"
-		aria-controls="radix-783-content-tab1"
-		data-state="active"
-		id="radix-783-trigger-tab1"
-		class="c-fszlVu"
-		tabindex="0"
-		data-orientation="horizontal"
-		data-radix-collection-item="">Account</button
-	><button
-		type="button"
-		role="tab"
-		aria-selected="false"
-		aria-controls="radix-783-content-tab2"
-		data-state="inactive"
-		id="radix-783-trigger-tab2"
-		class="c-fszlVu"
-		tabindex="-1"
-		data-orientation="horizontal"
-		data-radix-collection-item="">Password</button
-	>
-</div> -->
 <style>
 	.active {
 		@apply bg-blue-600 text-white;

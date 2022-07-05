@@ -5,7 +5,9 @@
 	import Toast from '$lib/components/Toast.svelte';
 	import IconCard from '$lib/components/IconCard.svelte';
 	import TabGroup from '$lib/components/tabs/TabGroup.svelte';
+	import TabList from '$lib/components/tabs/TabList.svelte';
 	import Tab from '$lib/components/tabs/Tab.svelte';
+	import TabPanel from '$lib/components/tabs/TabPanel.svelte';
 
 	let selectedItem: string;
 	let searchedText: string = '';
@@ -23,9 +25,29 @@
 
 <main class="p-4 md:p-8 lg:p-16 text-slate-800 bg-slate-100">
 	<TabGroup>
-		<Tab>Tomato</Tab>
-		<Tab>Onion</Tab>
-		<Tab>Broccoli</Tab>
+		<TabList>
+			<Tab index={0}>Tomato</Tab>
+			<Tab>Onion</Tab>
+			<Tab>Broccoli</Tab>
+		</TabList>
+		<TabPanel index={0}>
+			Tomato: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati eaque mollitia
+			repudiandae, dolore distinctio velit temporibus ut iusto harum modi deserunt illum amet
+			voluptatem ipsa, quibusdam dignissimos quasi provident quos? Lorem ipsum dolor sit, amet
+			consectetur adipisicing elit. Obcaecati eaque mollitia repudiandae, dolore distinctio velit
+			temporibus ut iusto harum modi deserunt illum amet voluptatem ipsa, quibusdam dignissimos
+			quasi provident quos?
+		</TabPanel>
+		<TabPanel>
+			Onion: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati eaque mollitia
+			repudiandae, dolore distinctio velit temporibus ut iusto harum modi deserunt illum amet
+			voluptatem ipsa, quibusdam dignissimos quasi provident quos?
+		</TabPanel>
+		<TabPanel>
+			Broccoli: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati eaque mollitia
+			repudiandae, dolore distinctio velit temporibus ut iusto harum modi deserunt illum amet
+			voluptatem ipsa, quibusdam dignissimos quasi provident quos?
+		</TabPanel>
 	</TabGroup>
 	<div class="icon-grid inline-block mb-8">
 		<div class="relative col-span-full sm:col-span-2">
